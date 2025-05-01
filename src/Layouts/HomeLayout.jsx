@@ -4,7 +4,7 @@ import Header from '../Components/Header';
 
 const HomeLayout = () => {
     return (
-        <div className='poppins'>
+        <div >
             <header>
                 <Header></Header>
             </header>
