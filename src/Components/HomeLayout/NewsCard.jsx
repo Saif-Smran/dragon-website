@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaBookmark, FaShareAlt, FaStar, FaEye } from "react-icons/fa";
 
 const NewsCard = ({ news }) => {
@@ -52,7 +52,7 @@ const NewsCard = ({ news }) => {
                 </p>
                 <button
                     className="text-orange-600 font-semibold btn btn-ghost btn-secondary hover:text-white cursor-pointer mb-4"
-                    
+
                 >
                     Read More
                 </button>

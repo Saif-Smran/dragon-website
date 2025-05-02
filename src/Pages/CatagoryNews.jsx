@@ -32,7 +32,7 @@ const CatagoryNews = () => {
 
     return (
         <div>
-            Total News: {news.length}
+            {/* Total News: {news.length} */}
             <div className="my-4 space-y-4">
                 {
                     news.map((news) => <NewsCard key={news._id} news={news}></NewsCard>)
