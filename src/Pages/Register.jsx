@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { use } from 'react';
 import { FaUser, FaImage, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link } from 'react-router';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
+
+    const { CreatUser, setUser } = use(AuthContext)
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log(name, photo, email, password);
+
+        CreatUser(email, password)
+            .then((res) => {
+                // Signed up 
+                const user = res.user;
+                // console.log(user);
+                setUser(user)
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                console.log(errorCode, errorMessage);
+                
+                // ..
+            });
+    }
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center bg-base-200 px-4">
             <div className="w-full max-w-md bg-white dark:bg-base-100 rounded-lg shadow-lg p-8 space-y-6">
                 <h2 className="text-2xl font-bold text-center">Register your account</h2>
-                <form className="space-y-4">
+                <form onSubmit={handleRegister} className="space-y-4">
                     {/* Name */}
                     <div className="form-control">
                         <label className="label" htmlFor="name">
