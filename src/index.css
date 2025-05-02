@@ -16,6 +16,10 @@
   font-family: "Poppins", sans-serif;
 }
 
-.active{
+nav .active{
   @apply underline
+}
+
+.catagory .active{
+  @apply bg-base-300 p-2 rounded-lg
 }

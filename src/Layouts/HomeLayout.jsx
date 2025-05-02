@@ -20,7 +20,10 @@ const HomeLayout = () => {
             </header>
             <main className='my-20 grid grid-cols-12 gap-4'>
                 <aside className="col-span-3"><LeftAside></LeftAside></aside>
-                <section className="main col-span-6"><Outlet></Outlet></section>
+                <section className="main col-span-6 px-4">
+                    <h2 className="text-xl font-bold text-accent mb-4">Dragon News Home</h2>
+                    <Outlet></Outlet>
+                    </section>
                 <aside className='col-span-3'><RightAside></RightAside></aside>
             </main>
         </div>
