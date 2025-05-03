@@ -6,6 +6,7 @@ import Login from "../Pages/Login";
 import Aunthication from "../Layouts/Aunthication";
 import Register from "../Pages/Register";
 import NewsDetails from "../Pages/NewsDetails";
+import PrivateRout from "../Provider/PrivateRout";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     {
         path: '/auth',
         element: <Aunthication></Aunthication>,
-        children:[
+        children: [
             {
                 path: '/auth/login',
                 element: <Login></Login>,
@@ -39,7 +40,9 @@ const router = createBrowserRouter([
     },
     {
         path: '/news-details/:id',
-        element: <NewsDetails></NewsDetails>,
+        element: <PrivateRout>
+            <NewsDetails></NewsDetails>
+        </PrivateRout>,
         loader: () => fetch('/news.json'),
     },
     {

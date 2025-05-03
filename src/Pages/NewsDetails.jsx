@@ -29,7 +29,7 @@ const NewsDetails = () => {
                 <div className='col-span-9'>
                     <h1 className='text-2xl font-bold'>Dragon News</h1>
                     <div className="p-8 rounded-2xl bg-base-100 shadow-lg mt-5 space-y-5 border border-gray-200">
-                        <img src={news?.thumbnail_url || news?.image_url} alt={news?.title} />
+                        <img src={news?.thumbnail_url || news?.image_url} alt={news?.title} className='w-full object-contain rounded-lg' />
                         <h2 className='text-3xl font-bold'>{news?.title}</h2>
                         <p className='text-lg'>{news?.details}</p>
                         <Link to={`/catagory/${news?.category_id}`} className='btn btn-secondary my-5'> <FaArrowLeft></FaArrowLeft> All news in this category</Link>

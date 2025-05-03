@@ -1,11 +1,14 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
 
     const { setUser, login } = use(AuthContext)
+    const location = useLocation()
+
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
@@ -25,15 +28,16 @@ const Login = () => {
                 setUser(loggedUser)
                 alert('Login successful')
 
-                navigate('/catagory/1')
+                navigate(location?.state || '/')
 
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                alert('Login failed' ,errorCode, errorMessage)
-                console.log('Login failed' ,errorCode, errorMessage)
-              })
+                // alert('Login failed' ,errorCode, errorMessage)
+                setError('Invalid email or password')
+                console.log('Login failed', errorCode, errorMessage)
+            })
 
     }
 
@@ -42,6 +46,9 @@ const Login = () => {
         <div className="min-h-[80vh] flex items-center justify-center bg-base-200">
             <div className="w-full max-w-md p-8 space-y-4 bg-white dark:bg-base-100 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-center text-accent">Login Your Account</h2>
+
+                {error && <p className='text-red-500 text-sm font-bold text-center'>{error}</p>}
+
                 <form onSubmit={handleLogin} className="space-y-4">
                     <div className="form-control">
                         <label className="label" htmlFor="email">
@@ -91,7 +98,7 @@ const Login = () => {
 
                     <p className="text-center font-bold text-sm text-gray-500 mt-2">
                         Don’t have an account?{" "}
-                        <Link to='/auth/register' className="text-blue-700 font-semibold hover:underline">
+                        <Link state={location.state} to='/auth/register' className="text-blue-700 font-semibold hover:underline">
                             Sign up
                         </Link>
                     </p>

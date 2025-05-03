@@ -1,18 +1,21 @@
 import React, { use } from 'react';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useLocation } from 'react-router';
 import profile from '../assets/user.png'
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Navbar = () => {
 
     const { user, Logout } = use(AuthContext)
+    const location = useLocation()
 
     const handleLogout = () => {
         Logout()
             .then(() => {
+                alert('Logout successful')
                 console.log('Logout successful')
             })
             .catch((error) => {
+                alert('Logout error')
                 console.error('Logout error:', error)
             })
     }
@@ -26,10 +29,10 @@ const Navbar = () => {
                 <NavLink to='/career'>Career</NavLink>
             </nav>
             <div className="btn-login gap-5 flex items-center">
-                <img src={profile} alt="" />
+                <img className='w-11 rounded-full' src={user?.photoURL || profile} alt="" />
                 {
                     user ? <button onClick={handleLogout} className='btn btn-primary px-10'>Log Out</button> :
-                        <Link to='/auth/login' className='btn btn-primary px-10'>Log In</Link>
+                        <Link state={location.pathname} to='/auth/login' className='btn btn-primary px-10'>Log In</Link>
                 }
             </div>
         </div>

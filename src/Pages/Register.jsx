@@ -1,11 +1,23 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { FaUser, FaImage, FaEnvelope, FaLock } from "react-icons/fa";
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
 
-    const { CreatUser, setUser } = use(AuthContext)
+    const { CreatUser, setUser, updateUder } = use(AuthContext)
+    const location = useLocation()
+
+    const [pass, setPass] = useState("");
+    const [touched, setTouched] = useState(false);
+
+    const validations = {
+        length: pass.length >= 8,
+        uppercase: /[A-Z]/.test(pass),
+        lowercase: /[a-z]/.test(pass),
+        number: /[0-9]/.test(pass),
+        special: /[!@#$%^&*(),.?":{}|<>]/.test(pass),
+    };
 
     const navigate = useNavigate()
 
@@ -24,9 +36,20 @@ const Register = () => {
                 // Signed up 
                 const user = res.user;
                 // console.log(user);
-                setUser(user)
+                
+                updateUder({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        // Profile updated successfully
+                        setUser({ ...user, displayName: name, photoURL: photo })
+                        console.log('Profile updated successfully');
+                    })
+                    .catch((error) => {
+                        // An error occurred
+                        console.log('Error updating profile', error);
+                        setUser(user)
+                    })
                 alert('Registration successful!');
-                navigate('/catagory/1')
+                navigate(location.state || '/')
                 // ...
             })
             .catch((error) => {
@@ -57,6 +80,7 @@ const Register = () => {
                                 placeholder="Enter your name"
                                 className="input input-bordered pl-10 w-full"
                                 required
+                                onFocus={() => setTouched(false)}
                             />
                         </div>
                     </div>
@@ -73,6 +97,8 @@ const Register = () => {
                                 id="photo"
                                 placeholder="Enter your photo URL"
                                 className="input input-bordered pl-10 w-full"
+                                required
+                                onFocus={() => setTouched(false)}
                             />
                         </div>
                     </div>
@@ -90,6 +116,7 @@ const Register = () => {
                                 placeholder="Enter your email address"
                                 className="input input-bordered pl-10 w-full"
                                 required
+                                onFocus={() => setTouched(false)}
                             />
                         </div>
                     </div>
@@ -99,6 +126,7 @@ const Register = () => {
                         <label className="label" htmlFor="password">
                             <span className="label-text font-semibold">Password</span>
                         </label>
+
                         <div className="relative">
                             <FaLock className="absolute left-3 top-3 text-gray-400" />
                             <input
@@ -107,9 +135,24 @@ const Register = () => {
                                 placeholder="Enter your password"
                                 className="input input-bordered pl-10 w-full"
                                 required
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
+                                onChange={(e) => setPass(e.target.value)}
+                                onFocus={() => setTouched(true)}
+                            // title="Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
                             />
                         </div>
                     </div>
+
+                    {touched && (
+                        <ul className="mt-2 text-sm text-red-600 space-y-1">
+                            {!validations.length && <li>• At least 8 characters</li>}
+                            {!validations.uppercase && <li>• At least 1 uppercase letter</li>}
+                            {!validations.lowercase && <li>• At least 1 lowercase letter</li>}
+                            {!validations.number && <li>• At least 1 number</li>}
+                            {!validations.special && <li>• At least 1 special character</li>}
+                        </ul>
+                    )}
+
 
                     {/* Terms */}
                     <div className="form-control">
