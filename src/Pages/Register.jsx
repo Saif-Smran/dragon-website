@@ -1,11 +1,13 @@
 import React, { use } from 'react';
 import { FaUser, FaImage, FaEnvelope, FaLock } from "react-icons/fa";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
 
     const { CreatUser, setUser } = use(AuthContext)
+
+    const navigate = useNavigate()
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -23,6 +25,8 @@ const Register = () => {
                 const user = res.user;
                 // console.log(user);
                 setUser(user)
+                alert('Registration successful!');
+                navigate('/catagory/1')
                 // ...
             })
             .catch((error) => {
@@ -30,7 +34,7 @@ const Register = () => {
                 const errorMessage = error.message;
 
                 console.log(errorCode, errorMessage);
-                
+
                 // ..
             });
     }

@@ -1,13 +1,48 @@
-import React from 'react';
+import React, { use } from 'react';
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
+
+    const { setUser, login } = use(AuthContext)
+
+    const navigate = useNavigate()
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const form = e.target
+        const email = form.email.value
+        const password = form.password.value
+
+        // console.log(email, password)
+        // Perform login logic here (e.g., API call)
+
+        login(email, password)
+            .then((res) => {
+                const loggedUser = res.user
+                console.log(loggedUser)
+                setUser(loggedUser)
+                alert('Login successful')
+
+                navigate('/catagory/1')
+
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert('Login failed' ,errorCode, errorMessage)
+                console.log('Login failed' ,errorCode, errorMessage)
+              })
+
+    }
+
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center bg-base-200">
             <div className="w-full max-w-md p-8 space-y-4 bg-white dark:bg-base-100 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-center text-accent">Login Your Account</h2>
-                <form className="space-y-4">
+                <form onSubmit={handleLogin} className="space-y-4">
                     <div className="form-control">
                         <label className="label" htmlFor="email">
                             <span className="label-text">Email</span>

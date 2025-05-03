@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaBookmark, FaShareAlt, FaStar, FaEye } from "react-icons/fa";
+import { Link } from 'react-router';
 
 const NewsCard = ({ news }) => {
 
@@ -50,12 +51,11 @@ const NewsCard = ({ news }) => {
                 <p className="text-gray-600 text-sm leading-relaxed ">
                     {displayText(details)}
                 </p>
-                <button
+                <Link to={`/news-details/${news.id}`}
                     className="text-orange-600 font-semibold btn btn-ghost btn-secondary hover:text-white cursor-pointer mb-4"
-
                 >
                     Read More
-                </button>
+                </Link>
                 <hr className="border-gray-200 mb-3" />
                 <div className="flex items-center justify-between text-gray-600 text-sm">
                     <div className="flex items-center gap-1">
